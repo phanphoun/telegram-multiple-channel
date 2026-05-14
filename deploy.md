@@ -22,9 +22,11 @@ Your repository is already set up with:
 2. Sign up or log in
 3. Connect your GitHub account to Render
 
-## Step 3: Create a New Web Service
+## Step 3: Create a New Background Worker (Recommended)
 
-1. In Render dashboard, click **"New +"** → **"Web Service"**
+**Important**: Telegram bots don't need to bind to a port. Use a **Background Worker** instead of a Web Service to avoid port binding errors.
+
+1. In Render dashboard, click **"New +"** → **"Background Worker"**
 2. Select your repository: `phanphoun/telegram-multiple-channel`
 3. Configure the service:
 
@@ -95,6 +97,11 @@ Telethon creates session files to store authentication data. On Render:
 
 ### Troubleshooting
 
+**Port scan timeout / No open ports detected:**
+- This error occurs when deploying as a Web Service
+- Solution: Delete the Web Service and create a Background Worker instead
+- Telegram bots don't need to bind to ports - they connect to Telegram's servers
+
 **Bot not forwarding messages:**
 - Check environment variables are set correctly
 - Verify the bot is a member of the discussion group
@@ -127,7 +134,7 @@ render login
 3. Create a `render.yaml` file in your repository:
 ```yaml
 services:
-  - type: web
+  - type: worker  # Use worker instead of web for Telegram bots
     name: telegram-bridge-bot
     env: python
     buildCommand: pip install -r requirements.txt
