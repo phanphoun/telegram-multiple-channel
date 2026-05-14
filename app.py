@@ -1,13 +1,18 @@
 from telethon import TelegramClient, events, Button
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 # --- CONFIGURATION ---
-API_ID = '39659706'
-API_HASH = 'e6174316001b0c441305297b292b9e69'
-BOT_TOKEN = '8606599772:AAEwVZEK98nm7nhoz13wyK1_5OtpwSUU56M'
+API_ID = os.getenv('API_ID')
+API_HASH = os.getenv('API_HASH')
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # Channels to watch and the group where the discussion happens
-CHANNELS = ['minnnsara', 'targetcambo', 'channel3chat','channel4chatcam']
-TARGET_GROUP = 'disscussioncam' # The username of your group
+CHANNELS = os.getenv('CHANNELS', '').split(',')
+TARGET_GROUP = os.getenv('TARGET_GROUP') # The username of your group
 
 client = TelegramClient('bot_session', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 
